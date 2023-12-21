@@ -21,6 +21,7 @@
 		32F4524A2B34890C00C6DEF4 /* ReminderListViewController+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F452492B34890C00C6DEF4 /* ReminderListViewController+Actions.swift */; };
 		32F4524C2B34954900C6DEF4 /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4524B2B34954900C6DEF4 /* ReminderViewController.swift */; };
 		32F4524F2B3496FD00C6DEF4 /* ReminderViewController+Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4524E2B3496FD00C6DEF4 /* ReminderViewController+Row.swift */; };
+		32F452512B34AD1C00C6DEF4 /* ReminderViewController+Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F452502B34AD1C00C6DEF4 /* ReminderViewController+Section.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		32F452492B34890C00C6DEF4 /* ReminderListViewController+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReminderListViewController+Actions.swift"; sourceTree = "<group>"; };
 		32F4524B2B34954900C6DEF4 /* ReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewController.swift; sourceTree = "<group>"; };
 		32F4524E2B3496FD00C6DEF4 /* ReminderViewController+Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReminderViewController+Row.swift"; sourceTree = "<group>"; };
+		32F452502B34AD1C00C6DEF4 /* ReminderViewController+Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReminderViewController+Section.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			children = (
 				32F4524B2B34954900C6DEF4 /* ReminderViewController.swift */,
 				32F4524E2B3496FD00C6DEF4 /* ReminderViewController+Row.swift */,
+				32F452502B34AD1C00C6DEF4 /* ReminderViewController+Section.swift */,
 			);
 			path = DetailViewController;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32F452512B34AD1C00C6DEF4 /* ReminderViewController+Section.swift in Sources */,
 				32F4522D2B34398600C6DEF4 /* ReminderListViewController.swift in Sources */,
 				32F4524A2B34890C00C6DEF4 /* ReminderListViewController+Actions.swift in Sources */,
 				32F4524C2B34954900C6DEF4 /* ReminderViewController.swift in Sources */,

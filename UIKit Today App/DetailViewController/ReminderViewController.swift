@@ -8,8 +8,8 @@
 import UIKit
 
 class ReminderViewController: UICollectionViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Int, Row>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Row>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Row>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Row>
     
     
     var reminder: Reminder
@@ -49,12 +49,19 @@ class ReminderViewController: UICollectionViewController {
     //should read more about Snapshot - do not really understand why we append all instances of Row
     func updateSnapshot(){
         var snapshot = Snapshot()
-        snapshot.appendSections([0])
-        snapshot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: 0)
+        snapshot.appendSections([.view]) //again what is going here ? to configure a snapshot if the controller is in view mode.
+        snapshot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: .view)
         dataSource.apply(snapshot)
         // applying a snapshot updates the user interface to reflect the snapshot’s data and styling
     }
     
+    private func section(for indexPath: IndexPath) -> Section {
+        let sectionNumber = isEditing ? indexPath.section + 1 : indexPath.section
+        guard let section = Section(rawValue: sectionNumber) else {
+            fatalError("Unable to find matching section")
+        }
+        return section
+    }
     func cellRegistraitonHandle(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
         var contentConfiguration = cell.defaultContentConfiguration()
         contentConfiguration.text = text(for: row) //isn't it possible to attach style to the text property?
