@@ -1,0 +1,19 @@
+//
+//  ViewController.swift
+//  UIKit Today App
+//
+//  Created by Katya Brylinska on 21.12.2023.
+//
+
+import UIKit
+
+class ViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+
+
+}
+
