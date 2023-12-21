@@ -19,6 +19,7 @@ class ReminderViewController: UICollectionViewController {
         self.reminder = reminder
         var listConfig = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         listConfig.showsSeparators = false
+        listConfig.headerMode = .firstItemInSection
         let listLayout = UICollectionViewCompositionalLayout.list(using: listConfig)
         super.init(collectionViewLayout: listLayout)
     }
@@ -59,7 +60,7 @@ class ReminderViewController: UICollectionViewController {
     func updateSnapshotForViewing(){
         var snapshot = Snapshot()
         snapshot.appendSections([.view]) //again what is going here ? to configure a snapshot if the controller is in view mode.
-        snapshot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: .view)
+        snapshot.appendItems([Row.header(""),Row.title, Row.date, Row.time, Row.notes], toSection: .view)
         dataSource.apply(snapshot)
         // applying a snapshot updates the user interface to reflect the snapshot’s data and styling
     }
@@ -67,6 +68,9 @@ class ReminderViewController: UICollectionViewController {
     func updateSnapshotForEditing(){
         var snapshot = Snapshot()
         snapshot.appendSections([.title, .date, .notes]) //again what is going here ? to configure a snapshot if the controller is in edit mode and why we dont append items anymore (because we dont see them for now)
+        snapshot.appendItems([.header(Section.title.name)], toSection: .title)
+        snapshot.appendItems([.header(Section.date.name)], toSection: .date)
+        snapshot.appendItems([.header(Section.notes.name)], toSection: .notes)
         dataSource.apply(snapshot)
         // applying a snapshot updates the user interface to reflect the snapshot’s data and styling
     }
@@ -83,6 +87,10 @@ class ReminderViewController: UICollectionViewController {
     func cellRegistraitonHandle(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
         let section = section(for: indexPath)
         switch (section, row) {
+        case (_, .header(let title)):
+            var contentConfiguration = cell.defaultContentConfiguration()
+            contentConfiguration.text = title
+            cell.contentConfiguration = contentConfiguration
         case (.view, _):
             var contentConfiguration = cell.defaultContentConfiguration()
             contentConfiguration.text = text(for: row) //isn't it possible to attach style to the text property?
@@ -102,6 +110,7 @@ class ReminderViewController: UICollectionViewController {
         case .notes: return reminder.notes
         case .time: return reminder.dueDate.formatted(date: .omitted, time: .shortened)
         case .title: return reminder.title
+        default: return nil
         }
     }
 }
