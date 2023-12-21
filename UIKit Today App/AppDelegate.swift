@@ -14,6 +14,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        // is this really done in AppDelegate in UIKit?
+        /*
+         By applying changes to the appearance on the UINavigationBar class, you change the default appearance of all navigation bars in your app.
+         */
+        UINavigationBar.appearance().tintColor = .todayPrimaryTint
+        UINavigationBar.appearance().backgroundColor = .todayNavigationBackground
+        
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        // i compared with transparent and there was 0 difference
+        // after applying scrolling i could finally notice the difference
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        
+        
         return true
     }
 
