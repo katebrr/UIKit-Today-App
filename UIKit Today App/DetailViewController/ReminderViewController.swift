@@ -41,16 +41,32 @@ class ReminderViewController: UICollectionViewController {
             navigationItem.style = .navigator
         }
         navigationItem.title = NSLocalizedString("Reminder", comment: "Reminder vc title")
-        
-        updateSnapshot()
+        navigationItem.rightBarButtonItem = editButtonItem
+        updateSnapshotForViewing()
     }
     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        if editing {
+            updateSnapshotForEditing()
+        } else {
+            updateSnapshotForViewing()
+        }
+    }
     
     //should read more about Snapshot - do not really understand why we append all instances of Row
-    func updateSnapshot(){
+    func updateSnapshotForViewing(){
         var snapshot = Snapshot()
         snapshot.appendSections([.view]) //again what is going here ? to configure a snapshot if the controller is in view mode.
         snapshot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: .view)
+        dataSource.apply(snapshot)
+        // applying a snapshot updates the user interface to reflect the snapshot’s data and styling
+    }
+    
+    func updateSnapshotForEditing(){
+        var snapshot = Snapshot()
+        snapshot.appendSections([.title, .date, .notes]) //again what is going here ? to configure a snapshot if the controller is in edit mode and why we dont append items anymore (because we dont see them for now)
         dataSource.apply(snapshot)
         // applying a snapshot updates the user interface to reflect the snapshot’s data and styling
     }
@@ -62,12 +78,21 @@ class ReminderViewController: UICollectionViewController {
         }
         return section
     }
+    
+    
     func cellRegistraitonHandle(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
-        var contentConfiguration = cell.defaultContentConfiguration()
-        contentConfiguration.text = text(for: row) //isn't it possible to attach style to the text property?
-        contentConfiguration.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle)
-        contentConfiguration.image = row.image
-        cell.contentConfiguration = contentConfiguration
+        let section = section(for: indexPath)
+        switch (section, row) {
+        case (.view, _):
+            var contentConfiguration = cell.defaultContentConfiguration()
+            contentConfiguration.text = text(for: row) //isn't it possible to attach style to the text property?
+            contentConfiguration.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle)
+            contentConfiguration.image = row.image
+            cell.contentConfiguration = contentConfiguration
+        default: fatalError("Unexpected combination of section and row.")
+        }
+
+      
         cell.tintColor = .todayPrimaryTint
     }
     
