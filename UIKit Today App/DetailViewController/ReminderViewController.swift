@@ -8,7 +8,9 @@
 import UIKit
 
 class ReminderViewController: UICollectionViewController {
-    typealias DataSource = UICollectionViewDiffableDataSource<Int, Row>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Int, Row>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Row>
+    
     
     var reminder: Reminder
     private var dataSource: DataSource!
@@ -33,7 +35,20 @@ class ReminderViewController: UICollectionViewController {
         { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Row) in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
+        
+        updateSnapshot()
     }
+    
+    
+    //should read more about Snapshot - do not really understand why we append all instances of Row
+    func updateSnapshot(){
+        var snapshot = Snapshot()
+        snapshot.appendSections([0])
+        snapshot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: 0)
+        dataSource.apply(snapshot)
+        // applying a snapshot updates the user interface to reflect the snapshot’s data and styling
+    }
+    
     func cellRegistraitonHandle(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
         var contentConfiguration = cell.defaultContentConfiguration()
         contentConfiguration.text = text(for: row) //isn't it possible to attach style to the text property?

@@ -48,7 +48,7 @@ extension ReminderListViewController {
         snapshot.appendSections([0])
         snapshot.appendItems(reminders.map { $0.id })
         if !ids.isEmpty {
-            snapshot.reloadItems(ids) //uikit method
+            snapshot.reloadItems(ids)
         }
         dataSource.apply(snapshot)
     }
