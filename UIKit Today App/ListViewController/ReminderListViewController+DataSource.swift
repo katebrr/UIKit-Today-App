@@ -11,6 +11,14 @@ extension ReminderListViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Reminder.ID>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Reminder.ID>
     
+    var reminderCompletedValue: String {
+        NSLocalizedString("Completed", comment: "Reminder completed value")
+    }
+    
+    var reminderNotCompletedValue: String {
+        NSLocalizedString("Not completed", comment: "Reminder not completed value")
+    }
+    
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, id: Reminder.ID) {
 
         let reminder = reminders[indexPath.item]
@@ -26,10 +34,23 @@ extension ReminderListViewController {
         
         cell.accessories = [.customView(configuration: doneButtonConfig),
                             .disclosureIndicator(displayed: .always)] // for little arrows on the right
+        cell.accessibilityCustomActions = [doneButtonAccessibilityAction(for: reminder)]
+        
+        cell.accessibilityValue = reminder.isComplete ? reminderCompletedValue : reminderNotCompletedValue
         
         var backgroundConfig = UIBackgroundConfiguration.listGroupedCell()
         backgroundConfig.backgroundColor = .todayDetailCellTint
         cell.backgroundConfiguration = backgroundConfig
+    }
+    
+    func updateSnapshot(reloading ids: [Reminder.ID] = []) {
+        var snapshot = Snapshot()
+        snapshot.appendSections([0])
+        snapshot.appendItems(reminders.map { $0.id })
+        if !ids.isEmpty {
+            snapshot.reloadItems(ids) //uikit method
+        }
+        dataSource.apply(snapshot)
     }
     
     //why not to filter, and then retrieve reminders.first, if possible can we guard let here?
@@ -52,8 +73,20 @@ extension ReminderListViewController {
         reminder.isComplete.toggle()
 //        print(reminder.isComplete)
         updateReminder(reminder)
+        updateSnapshot(reloading: [id])
     }
     
+    
+    // not quite understanding what's going here
+    // should read about [weak self] and what is retain cycle of controller
+    private func doneButtonAccessibilityAction(for reminder: Reminder) -> UIAccessibilityCustomAction {
+        let name = NSLocalizedString("Toggle completion", comment: "Reminder done button accessibility label")
+        let action  = UIAccessibilityCustomAction(name: name) { [weak self] action in
+            self?.completeReminder(withId: reminder.id)
+            return true
+        }
+        return action
+    }
     
     private func doneButtonConfiguration(for reminder: Reminder) -> UICellAccessory.CustomViewConfiguration {
         let symbolName = reminder.isComplete ? "circle.fill" : "circle"
