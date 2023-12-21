@@ -39,7 +39,7 @@ extension ReminderListViewController {
         cell.accessibilityValue = reminder.isComplete ? reminderCompletedValue : reminderNotCompletedValue
         
         var backgroundConfig = UIBackgroundConfiguration.listGroupedCell()
-        backgroundConfig.backgroundColor = .todayDetailCellTint
+        backgroundConfig.backgroundColor = .todayListCellBackground
         cell.backgroundConfiguration = backgroundConfig
     }
     
