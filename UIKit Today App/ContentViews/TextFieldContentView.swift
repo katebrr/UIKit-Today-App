@@ -7,7 +7,23 @@
 
 import UIKit
 
-class TextFieldContentView: UIView {
+/*
+    Adopting this protocol signals that this view renders the content and styling that you define within a configuration. The content view’s configuration provides values for all supported properties and behaviors to customize the view.
+ */
+class TextFieldContentView: UIView, UIContentView {
+    
+    // how exactly this will work?
+    struct Config: UIContentConfiguration {
+        var text: String? = ""
+        
+        func makeContentView() -> UIView & UIContentView {
+            return TextFieldContentView(self)
+        }
+        
+    }
+    
+    var configuration: UIContentConfiguration
+    
     let textField = UITextField()
     
     // intrinsic - defined by the content
@@ -15,7 +31,8 @@ class TextFieldContentView: UIView {
         CGSize(width: 0, height: 44)
     }
     
-    init() {
+    init(_ configuration: UIContentConfiguration) {
+        self.configuration = configuration
         super.init(frame: .zero)
         
         /* The text field is pinned to the top of the superview and has a horizontal padding of 16. Top and bottom insets of 0 force the text field to span the entire height of the superview. */
