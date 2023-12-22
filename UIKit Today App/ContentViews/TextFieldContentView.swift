@@ -22,7 +22,11 @@ class TextFieldContentView: UIView, UIContentView {
         
     }
     
-    var configuration: UIContentConfiguration
+    var configuration: UIContentConfiguration {
+        didSet {
+            configure(configuration: configuration)
+        }
+    }
     
     let textField = UITextField()
     
@@ -49,4 +53,14 @@ class TextFieldContentView: UIView, UIContentView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(configuration: UIContentConfiguration) {
+        guard let config = configuration as? TextFieldContentView.Config else { return }
+        textField.text = config.text
+    }
+}
+
+extension UICollectionViewListCell {
+    func textFieldConfiguration ()  -> TextFieldContentView.Config {
+        TextFieldContentView.Config()
+    }
 }
