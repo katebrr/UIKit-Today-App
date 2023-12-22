@@ -54,7 +54,7 @@ class TextFieldContentView: UIView, UIContentView {
     }
     
     func configure(configuration: UIContentConfiguration) {
-        guard let config = configuration as? TextFieldContentView.Config else { return }
+        guard let config = configuration as? TextViewContentView.Config else { return }
         textField.text = config.text
     }
 }
