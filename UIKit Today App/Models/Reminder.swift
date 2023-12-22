@@ -17,6 +17,7 @@ struct Reminder: Identifiable {
 
 extension [Reminder] {
     // if Array.Index is the typealias of Int, can we return Int?
+    // i guess we can, but using Self.Index is more accurate
     func indexOfReminder(withId id: Reminder.ID) -> Self.Index {
         guard let index = firstIndex(where: {$0.id == id}) else { fatalError() }
         return index
